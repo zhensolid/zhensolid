@@ -89,18 +89,38 @@ def delete_schedules(frame):
                 schedules.remove(schedule)
         load_schedules(frame)  # 重新加载日程
 
-# root = tk.Tk()
-# root.geometry("400x400")
-# root.resizable(False, False)  # 禁止调整窗口大小
-# frame = tk.Frame(root)
-# frame.pack()
+
 
 
 root = tk.Tk()
-root.geometry("500x500")
-root.resizable(False, False)  # 禁止调整窗口大小
-frame = tk.Frame(root, bd=2, relief='sunken', highlightbackground="red")
-frame.place(x=50, y=50, width=400, height=300)
+root.title("日程表")             #设置窗口名称
+root.iconbitmap('myicon.ico')   #设置窗口图标
+root.geometry("500x500")        #设置窗口大小
+root.resizable(False, False)    #禁止调整窗口大小
+
+# 创建一个Canvas
+canvas = tk.Canvas(root, bd=10, relief='flat')
+canvas.place(x=50, y=50, width=400, height=300)
+
+# canvas = tk.Canvas(root, bd=2, highlightbackground="red")
+# canvas.place(x=50, y=50, width=400, height=300)
+
+
+# 在Canvas中创建frame
+frame = tk.Frame(canvas)
+
+# 添加滚动条
+scrollbar = tk.Scrollbar(canvas, orient="vertical", command=canvas.yview)
+# scrollbar.pack(side='right', fill='y')
+scrollbar.place(x=400-10, y=0, width=20, height=300)
+
+canvas.configure(yscrollcommand = scrollbar.set)
+
+# 添加frame到canvas
+canvas.create_window((0,0),window=frame,anchor='nw')
+
+# 更新frame的大小
+frame.bind("<Configure>", lambda e: canvas.configure(scrollregion=canvas.bbox("all")))
 
 Button(root, text="Delete selected schedules", command=lambda: delete_schedules(frame)).pack(side='bottom')
 Button(root, text="Add schedule", command=lambda: add_schedule(frame)).pack(side='bottom')

@@ -56,9 +56,11 @@ def add_schedule(frame):
         values = [f"{i:02d}" for i in range(60)]
         hour = ttk.Combobox(master=top, values=values[:24], state="readonly", width=5)
         hour.place(x=10, y=220)
+        hour.current(datetime.datetime.now().hour)  # 设置默认的小时为当前的小时
         Label(top, text="小时").place(x=70, y=220)
         minute = ttk.Combobox(master=top, values=values, state="readonly", width=5)
         minute.place(x=100, y=220)
+        minute.current(datetime.datetime.now().minute)  # 设置默认的分钟为当前的分钟
         Label(top, text="分钟").place(x=160, y=220)
         Button(top, text="OK", command=print_sel).place(x=240, y=220)
 
@@ -87,11 +89,21 @@ def delete_schedules(frame):
                 schedules.remove(schedule)
         load_schedules(frame)  # 重新加载日程
 
+# root = tk.Tk()
+# root.geometry("400x400")
+# root.resizable(False, False)  # 禁止调整窗口大小
+# frame = tk.Frame(root)
+# frame.pack()
+
+
 root = tk.Tk()
-root.geometry("400x400")
-frame = tk.Frame(root)
-frame.pack()
-Button(root, text="Add schedule", command=lambda: add_schedule(frame)).pack()
-Button(root, text="Delete selected schedules", command=lambda: delete_schedules(frame)).pack()
+root.geometry("500x500")
+root.resizable(False, False)  # 禁止调整窗口大小
+frame = tk.Frame(root, bd=2, relief='sunken', highlightbackground="red")
+frame.place(x=50, y=50, width=400, height=300)
+
+Button(root, text="Delete selected schedules", command=lambda: delete_schedules(frame)).pack(side='bottom')
+Button(root, text="Add schedule", command=lambda: add_schedule(frame)).pack(side='bottom')
+
 load_schedules(frame)
 root.mainloop()

@@ -94,7 +94,7 @@ def delete_schedules(frame):
 
 root = tk.Tk()
 root.title("日程表")             #设置窗口名称
-root.iconbitmap('myicon.ico')   #设置窗口图标
+# root.iconbitmap('myicon.ico')   #设置窗口图标
 root.geometry("500x500")        #设置窗口大小
 root.resizable(False, False)    #禁止调整窗口大小
 

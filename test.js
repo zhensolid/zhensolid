@@ -1,3 +1,3 @@
-export function test() {
+export async function test() {
   console.log('test')
 }
